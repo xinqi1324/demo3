@@ -1,6 +1,7 @@
 package com.example.demo3.controller;
 
 import com.example.demo3.entity.FileInfo;
+import com.example.demo3.service.DownloadUtils;
 import com.example.demo3.service.WebUploader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,13 +34,23 @@ public class TestController {
 
     @Autowired
     private WebUploader wu;
-
+    @Autowired
+    private DownloadUtils downloadUtils;
     @RequestMapping("/")
     public String index(ModelMap map) {
         map.addAttribute("name", "222222");
         return "index";
     }
+    @RequestMapping("/downLoad")
+    @ResponseBody
+    public String downLoad(HttpServletResponse response,String fileName){
 
+        long begin = System.currentTimeMillis();
+        DownloadUtils.download("F:\\迅雷下载\\",response,fileName);
+        long end = System.currentTimeMillis();
+        System.out.println(end - begin +"ms");
+        return "success";
+    }
     @RequestMapping("/test")
     public String test(ModelMap map) {
         return "test";

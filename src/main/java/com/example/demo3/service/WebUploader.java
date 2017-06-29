@@ -44,6 +44,7 @@ public class WebUploader {
     private StringRedisTemplate stringRedisTemplate;
 
     public String md5Check(String key) {
+        // FIXME: 2017/6/28 在mysql中检索是否有相同的MD5值文件
         Gson gson = new Gson();
         String md5 = stringRedisTemplate.opsForValue().get("md5");
         Map<String, String> map = null;
@@ -187,6 +188,7 @@ public class WebUploader {
      * @return
      */
     public boolean saveMd52FileMap(String key, String file) {
+        // FIXME: 2017/6/28 将文件具体md5信息存入mysql中
         Gson gson = new Gson();
         String md5 = stringRedisTemplate.opsForValue().get("md5");
         Map<String, String> map;

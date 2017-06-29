@@ -49,10 +49,8 @@
             var task = new $.Deferred();
             var start = new Date().getTime();
             (new WebUploader.Uploader()).md5File(file, 0, 10*1024*1024).progress(function(percentage){
-                console.log(percentage);
             }).then(function(val){
                 begin = new Date().getTime();
-                console.log("总耗时: "+((new Date().getTime()) - start)/1000);
                 md5Mark = val;
                 userInfo.md5 = val;
                 $.ajax({
@@ -66,8 +64,6 @@
 //                    , timeout: 1000 //todo 超时的话，只能认为该文件不曾上传过
                     , dataType: "json"
                 }).then(function(data, textStatus, jqXHR){
-                    console.log(data);
-                    console.log(data.ifExist);
                     if(data.ifExist){   //若存在，这返回失败给WebUploader，表明该文件不需要上传
                         task.reject();
                         uploader.skipFile(file);
@@ -115,7 +111,6 @@
         }
         , afterSendFile: function(file){
             end = new Date().getTime();
-            console.log((end - begin)+"ms");
             var chunksTotal = 0;
             if((chunksTotal = Math.ceil(file.size/chunkSize)) > 1){
                 //合并请求
@@ -232,7 +227,6 @@
     });
 
     function UploadComlate(file){
-        console.log(file);
         $("#" + file.id + " .percentage").text("上传完毕");
         $(".itemStop").hide();
         $(".itemUpload").hide();
